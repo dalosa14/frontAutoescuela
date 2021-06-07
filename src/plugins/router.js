@@ -24,11 +24,20 @@ const routes = [
     beforeEnter: ifAuthenticated,
   },
   {
-    path: "/my-tests",
-    name: "tests",
-    component: ()=>import('../views/tests.vue'),
+    path: "/testsPack/:id",
+    
+    name: "testsPack",
+    component: ()=>import('../views/testsPack.vue'),
     beforeEnter: ifAuthenticated,
   },
+  {
+    path: "/test/:id",
+    
+    name: "test",
+    component: ()=>import('../views/test.vue'),
+    beforeEnter: ifAuthenticated,
+  },
+  
   {
     path: "/buy-testsPacks",
     name: "buy",

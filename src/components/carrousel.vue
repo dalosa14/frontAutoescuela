@@ -1,20 +1,22 @@
 <template>
   <!-- component -->
   <!-- Display Container (not part of component) START -->
-  <div
-    class="
-      mx-auto
-      p-6
-      sm:p-10
-      lg:p-24
+  <div class=" h-full mx-auto
+      
+      
+      
       text-center
       bg-gray-200
-      text-5xl text-indigo-600
+      text-5xl text-indigo-600">
+  <div
+    class="
+      
     "
   >
-    <h1 class="">{{title}}</h1>
+    <h1 class="sm:p-10
+      lg:p-24">{{title}}</h1>
   </div>
-  <div class="mx-auto p-8 sm:p-12 lg:p-24 bg-gray-200">
+  <div class="mx-auto h-3/6  px-24 bg-gray-200">
     <!-- Carousel Body -->
     <div
       class="
@@ -80,7 +82,7 @@
             "
             href=""
           >
-            <span>{{type == 'buy' ? 'Comprar Pack de tests': 'Entrar ahora.'}}</span>
+            <span @click.prevent="type == 'buy' ? addTestPackageToUser(selectedElement.id) : goToTestPack(selectedElement.id)">{{type == 'buy' ? 'Comprar Pack de tests': 'Entrar ahora.'}}</span>
             <span class="text-xs ml-1">&#x279c;</span>
           </a>
         </div>
@@ -150,11 +152,13 @@
 
     <!-- Carousel Tabs -->
   </div>
+  </div>
   <!-- Display Container (not part of component) END -->
 </template>
 <script>
 import { useStore } from "vuex";
 import { computed, ref } from "vue";
+import router from "../plugins/router";
 
 
 export default {
@@ -172,7 +176,13 @@ export default {
       return elements.value[selectedElementCounter.value];
     });
 
+async function addTestPackageToUser(packageId){
+ await store.dispatch("test/addTestPackageToUser",packageId);
+}
+function goToTestPack(packageId){
+      router.push({ name: "testsPack" ,params:{id:packageId}});
 
+}
     const prevTestPackage = () => {
       if (selectedElementCounter.value > 0) {
         selectedElementCounter.value--;
@@ -192,8 +202,10 @@ export default {
     return {
       selectedElement,
       type:props.type,
+      goToTestPack,
       title:props.title,
       prevTestPackage,
+      addTestPackageToUser,
       nextTestPackage,
     };
   },
