@@ -1,7 +1,7 @@
 import axios from "axios";
 
 let config = {
-  baseURL: "http://localhost:5000/",
+  baseURL: process.env.APIURL || "localhost:5000",
   authorization: localStorage.getItem("token"),
 };
 
