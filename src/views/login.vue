@@ -1,5 +1,5 @@
 <template lang="pug">
-div(class="h-screen overflow-hidden flex items-center justify-center align-middle" style="background: #edf2f7;") 
+div(class="h-screen overflow-hidden flex items-center justify-center align-middle" ) 
     div(class="font-sans")
         div(class="relative min-h-screen w-72 flex flex-col sm:justify-center content-center items-center bg-gray-100")
             div(class="relative sm:max-w-sm w-full h-full")

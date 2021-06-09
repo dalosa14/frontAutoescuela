@@ -6,20 +6,21 @@
       
       
       text-center
-      bg-gray-200
-      text-5xl text-indigo-600">
+      text-2xl   
+       text-indigo-600">
   <div
     class="
       
     "
   >
-    <h1 class="sm:p-10
-      lg:p-24">{{title}}</h1>
+    <h1 class="sm:p-10 text-5xl text-indigo-600 border bg-gray-50 my-5
+      lg:p-12">{{title}}</h1>
   </div>
-  <div class="mx-auto h-3/6  px-24 bg-gray-200">
+  <div class="mx-auto h-3/6  px-24 ">
     <!-- Carousel Body -->
     <div
       class="
+     
         relative
         rounded-lg
         block
@@ -27,11 +28,13 @@
         items-center
         bg-gray-100
         shadow-xl
+        
       "
-      style="min-height: 19rem"
+      
     >
       <div
         class="
+        
           relative
           w-full
           md:w-2/5
@@ -61,6 +64,7 @@
             justify-center
             fill-current
             text-white
+            text-5xl
           "
         >
           <p>{{ selectedElement.title }} </p>
@@ -79,10 +83,12 @@
               text-indigo-600
               hover:text-indigo-900
               focus:text-indigo-900
+              text-center
+              justify-center
             "
             href=""
           >
-            <span @click.prevent="type == 'buy' ? addTestPackageToUser(selectedElement.id) : goToTestPack(selectedElement.id)">{{type == 'buy' ? 'Comprar Pack de tests': 'Entrar ahora.'}}</span>
+            <span @click.prevent="type == 'buy' ? addTestPackageToUser(selectedElement.id) : goToTestPack(selectedElement.id)">{{type == 'buy' ? 'Adquirir Pack ': 'Entrar al pack.'}}</span>
             <span class="text-xs ml-1">&#x279c;</span>
           </a>
         </div>

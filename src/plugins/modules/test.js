@@ -298,12 +298,11 @@ const actions = {
             { root: true }
           );
         }
-        let noAnswerCounter = answerData.reduce((acc,answer)=>{
-          if(answer.answer == '') acc ++
+        let AnswerCounter = answerData.reduce((acc,answer)=>{
+          if(answer.answer != '') acc ++
           return acc
         },0)
-        console.log(noAnswerCounter);
-        if (noAnswerCounter == 4) {
+        if (AnswerCounter == 0) {
            commit(
             "SET_MSG",
             {
@@ -319,15 +318,37 @@ const actions = {
 
         }
 
+        let AnswerTrueCounter = answerData.reduce((acc,answer)=>{
+          if(answer.isTrue == true && answer.answer != '') acc ++
+          return acc
+        },0)
+        if (AnswerTrueCounter == 0) {
+          commit(
+           "SET_MSG",
+           {
+             text: 'al menos tiene que haber alguna respuesta correcta y valida',
+             color: "error",
+             active: true,
+           },
+           { root: true }
+         );
+         commit("SET_LOADER", false, { root: true });
+
+         return reject({ success: false, data :null,msg:'al menos tiene que haber alguna respuesta correcta y valida' });
+
+       }
         answerData.forEach(async answer => {
           answer.questionId = request.data.data.id
-          console.log(answer);
-           await testPackage.createAnswer(answer);
+          if (answer.answer != '') {
+            await testPackage.createAnswer(answer);
+          }
+           
 
         });
 
-        // SUCCESS
-        commit(
+        commit("SET_LOADER", false, { root: true });
+
+         commit(
           "SET_MSG",
           {
             text: request.data.msg,
@@ -336,6 +357,7 @@ const actions = {
           },
           { root: true }
         );
+        return resolve({ success: true, data :request.data.msg });
       } catch (error) {
         commit(
           "SET_MSG",
@@ -348,10 +370,9 @@ const actions = {
         );
         reject(error.response.data.msg);
       }
-
       commit("SET_LOADER", false, { root: true });
 
-      resolve({ success: true, data :request.data.data });
+      
     });
   },
   

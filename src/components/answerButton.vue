@@ -21,7 +21,7 @@
       hover:bg-yellow-400
       hover:border-transparent
       |
-      transition-colors 
+      transition-colors
       duration-500
     "
   >
@@ -49,14 +49,14 @@
       justify-around
       cursor-pointer
       |
-      bg-gray-100
       border-green-600
       hover:bg-green-400
       hover:border-transparent
       |
-      transition-colors 
+      transition-colors
       duration-500
     "
+    :class="{ 'bg-green-500': selected }"
   >
     <h1>{{ letters[index] }}</h1>
     <div class="flex flex-col justify-center">
@@ -82,14 +82,14 @@
       justify-around
       cursor-pointer
       |
-      bg-gray-100
       border-red-600
       hover:bg-red-400
       hover:border-transparent
       |
-      transition-colors 
+      transition-colors
       duration-500
     "
+    :class="{ 'bg-red-500': selected }"
   >
     <h1>{{ letters[index] }}</h1>
     <div class="flex flex-col justify-center">
@@ -101,21 +101,33 @@
 </template>
 <script>
 import { useStore } from "vuex";
-import { computed} from "vue";
+import { computed, ref } from "vue";
 
 export default {
-  props: ["answer", "index",'answered'],
+  props: ["answer", "index", "answered"],
   setup(props) {
-        const store = useStore();
-
+    const store = useStore();
+    let selected = ref(false);
 
     let letters = ["A", "B", "C", "D", "F"];
-
+    let answered = computed(() => props.answered);
     function selectAnswer() {
-                       store.commit("test/SET_SELECTED_ANSWER_ON_QUESTION",{answerId:props.answer.id,isTrue:props.answer.isTrue})
-
+      if (!answered.value) {
+        selected.value = true;
+      }
+      store.commit("test/SET_SELECTED_ANSWER_ON_QUESTION", {
+        answerId: props.answer.id,
+        isTrue: props.answer.isTrue,
+      });
     }
-    return { answer: computed(()=>props.answer) , index: computed(()=>props.index) , letters,selectAnswer,answered: computed(()=>props.answered) };
+    return {
+      selected,
+      answer: computed(() => props.answer),
+      index: computed(() => props.index),
+      letters,
+      selectAnswer,
+      answered,
+    };
   },
 };
 </script>

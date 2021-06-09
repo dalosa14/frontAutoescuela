@@ -1,8 +1,8 @@
 <template lang="pug">
-div(class="h-screen")
-  navBar(class="lg:h-1/6 h-2/6")
-  div(class="lg:h-5/6 h-4/6")
-    carrousel( :elements="elements" v-if="elements[0]" type="buy" title="COMPRAR PACKS DE TESTS")
+
+navBar(class="lg:h-1/6 h-2/6")
+div(class="lg:h-5/6 h-4/6")
+  carrousel( :elements="elements" v-if="elements[0]" type="buy" title="ADQUIRIR PACKS DE TESTS")
     
 </template>
 <script>

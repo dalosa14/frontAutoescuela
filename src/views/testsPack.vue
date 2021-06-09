@@ -1,9 +1,9 @@
 <template lang="pug">
-div(class="h-screen")
-  navBar(class="lg:h-1/6 h-2/6")
-  div(class="lg:h-5/6 h-4/6 bg-gray-200")
-    div( class="p-8 space-y-4")
-      card( @click.prevent="goToTest(test.id)" :img="test.img" :title="test.name"   v-for="test in tests"  )
+
+navBar(class="lg:h-1/6 h-2/6")
+div(class="lg:h-5/6 h-4/6 ")
+  div( class="p-8 space-y-4")
+    card( @click.prevent="goToTest(test.id)" :img="test.img" :title="test.name"   v-for="test in tests"  )
 
 </template>
 <script>

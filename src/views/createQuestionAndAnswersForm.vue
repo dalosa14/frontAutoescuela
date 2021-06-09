@@ -1,5 +1,5 @@
 <template lang="pug">
-div(class="h-full  flex items-center justify-center py-10" style="background: #edf2f7;") 
+div(class="h-full  flex items-center justify-center py-10" ) 
     div(class="font-sans")
         div(class="relative min-h-screen w-72 flex flex-col sm:justify-center  items-center ")
             div(class="relative sm:max-w-sm w-full h-full")
@@ -19,22 +19,22 @@ div(class="h-full  flex items-center justify-center py-10" style="background: #e
                         div(class="flex flex-wrap -mx-1 ")
                             div(class="mt-7 my-1 px-1 w-1/6 inline-flex items-center has-tooltip") 
                                 span(class='tooltip bg-green-500 p-3 -mt-20 lg:-mt-20 rounded') marcar como verdadera
-                                input(type="checkbox" class="form-checkbox text-green-500" v-model="answerData[0].isTrue") 
+                                input(type="checkbox" class="form-checkbox text-green-500" :disabled="!answerData[0].answer"   v-model="answerData[0].isTrue") 
                             div(class="mt-7 my-1 px-1 w-5/6 ")              
                                 input(v-model="answerData[0].answer" type="text" placeholder="respuesta 1" class="pl-2 mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0")
                             div(class="mt-7 my-1 px-1 w-1/6 inline-flex items-center has-tooltip") 
                                 span(class='tooltip bg-green-500 p-3 -mt-20 lg:-mt-20 rounded') marcar como verdadera
-                                input(type="checkbox" class="form-checkbox text-green-500" v-model="answerData[1].isTrue" )
+                                input(type="checkbox" class="form-checkbox text-green-500" :disabled="!answerData[1].answer"  v-model="answerData[1].isTrue" )
                             div(class="mt-7 my-1 px-1 w-5/6 ")              
                                 input(v-model="answerData[1].answer" type="text" placeholder="respuesta 2" class="pl-2 mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0")
                             div(class="mt-7 my-1 px-1 w-1/6 inline-flex items-center has-tooltip") 
                                 span(class='tooltip bg-green-500 p-3 -mt-20 lg:-mt-20 rounded') marcar como verdadera
-                                input(type="checkbox" class="form-checkbox text-green-500" v-model="answerData[2].isTrue")
+                                input(type="checkbox" class="form-checkbox text-green-500" :disabled="!answerData[2].answer"  v-model="answerData[2].isTrue")
                             div(class="mt-7 my-1 px-1 w-5/6 ")              
                                 input(v-model="answerData[2].answer" type="text" placeholder="respuesta 3" class="pl-2 mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0")
                             div(class="mt-7 my-1 px-1 w-1/6 inline-flex items-center has-tooltip") 
                                 span(class='tooltip bg-green-500 p-3 -mt-20 lg:-mt-20 rounded') marcar como verdadera
-                                input(type="checkbox" class="form-checkbox text-green-500" v-model="answerData[3].isTrue")
+                                input(type="checkbox" class="form-checkbox text-green-500" :disabled="!answerData[3].answer"  v-model="answerData[3].isTrue")
                             div(class="mt-7 my-1 px-1 w-5/6 ")              
                                 input(v-model="answerData[3].answer" type="text" placeholder="respuesta 4" class="pl-2 mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0")
                            

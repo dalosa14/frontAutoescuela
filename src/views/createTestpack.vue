@@ -1,12 +1,12 @@
 <template lang="pug">
 div(class="h-screen")
   navBar(class="lg:h-1/6 h-2/6")
-  div(class="lg:h-5/6 h-4/6 bg-gray-200" v-if="!form")
+  div(class="lg:h-5/6 h-4/6 " v-if="!form")
     div( class="p-8 space-y-4 flex justify-center") 
       button(@click.prevent="changeForm()" class="bg-blue-600 px-5 py-3 text-sm shadow-sm font-medium tracking-wider border text-blue-100 rounded-full hover:shadow-lg hover:bg-green-700") Crear nuevo Pack de tests
     div( class="p-8 space-y-4")
       card( @click.prevent="goToTest(testPackage.id)" :img="testPackage.img" :title="testPackage.name" :desc="testPackage.desc"   v-for="testPackage in testPackages"  )
-  div(class="lg:h-5/6 h-4/6 bg-gray-200" v-if="form")
+  div(class="lg:h-5/6 h-4/6 " v-if="form")
       createTestpackForm 
 </template>
 <script>

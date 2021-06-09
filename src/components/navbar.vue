@@ -1,9 +1,9 @@
 <template lang="pug">
 nav(class="flex items-center justify-between flex-wrap bg-green-500 p-6")
     div(class="flex items-center flex-shrink-0 text-white mr-6")
-        span(class="font-semibold text-xl tracking-tight") AutoTest
-    div(class="block lg:hidden")
-        button(class="flex items-center px-3 py-2 border rounded text-green-100 border-green-400 hover:text-white hover:border-white" id="navbar-btn")
+        img(src="https://i.ibb.co/XYNXWqy/logoautoescuela.png"  class="h-20" alt="alt")
+
+        span(class="font-semibold text-xl tracking-tight") The Good Test
     div(class="w-full block flex-grow lg:flex lg:items-center lg:w-auto " id="navbar")
         div(class="text-sm lg:flex-grow  text-center lg:text-right")
           a( @click.prevent="goToCreateTestpack" href="#" class="block mt-4 lg:inline-block lg:mt-0 text-green-100 hover:text-white mr-4 text-lg" ) Crear tests
