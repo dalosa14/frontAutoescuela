@@ -1,7 +1,7 @@
 import axios from "axios";
 
 let config = {
-  baseURL: process.env.APIURL || "localhost:5000",
+  baseURL: process.env.APIURL || "https://backend-node-msql.herokuapp.com",
   authorization: localStorage.getItem("token"),
 };
 
