@@ -30,13 +30,13 @@
         mb-4
       "
     ></div>
-    <h2 class="text-center text-white text-xl font-semibold">{{ title }}</h2>
-    <p class="w-1/3 text-center text-white">{{ desc }}</p>
+   
   </div>
 </template>
 
 <script>
-import { defineProps, computed } from "vue";
+import { 
+   computed } from "vue";
 import { useStore } from "vuex";
 
 export default {
@@ -44,10 +44,7 @@ export default {
     const store = useStore();
     let loading = computed(() => store.state.loading);
 
-    defineProps({
-      title: String,
-      desc: String,
-    });
+    
     return { loading };
   },
 };

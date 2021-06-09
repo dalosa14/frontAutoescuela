@@ -7,9 +7,9 @@ div(class="h-screen overflow-hidden flex items-center justify-center align-middl
                     div(class="card bg-red-400 shadow-lg  w-full h-full rounded-3xl absolute  transform rotate-6")
                     div(class="relative w-full rounded-3xl  px-6 py-4 bg-gray-100 shadow-md")
                         label(class="block mt-3 text-sm text-gray-700 text-center font-semibold") Login
-                        form(method="#" action="#" class="mt-10")
+                        Form(@submit.prevent="login" class="mt-10")
                             div 
-                                input(v-model="userData.email" type="email" placeholder="Correo electronico" class="pl-2 mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0")
+                                input(v-model="userData.email" type="email" name="email" :rules="validateEmail" placeholder="Correo electronico" class="pl-2 mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0")
                             div(class="mt-7")              
                                 input(v-model="userData.password" type="password" placeholder="Contraseña" class="pl-2 mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0")
                         
@@ -18,7 +18,7 @@ div(class="h-screen overflow-hidden flex items-center justify-center align-middl
                                 div(class="w-full text-center")  
                                     a(class="underline text-sm text-gray-600 hover:text-gray-900" href="#") ¿Olvidó su contraseña?
                             div(class="mt-7")
-                                button(@click.prevent="login()" class="bg-blue-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105") Entrar
+                                button(@click="submit" class="bg-blue-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105") Entrar
 
                             div(class="mt-7")
                                 div(class="flex justify-center items-center")
@@ -41,7 +41,7 @@ import router from "../plugins/router";
 
 export default {
     components:{
-    
+        
     alert
 },
 setup(){
@@ -58,7 +58,6 @@ const goToRegister = () => {
 
     return {
         userData,
-        
         goToRegister,
         login
 

@@ -3,138 +3,358 @@ import { testPackage } from "../../api";
 import router from "../router";
 
 const state = {
-  buyedTestPackages:[{"id":1,"name":'asd',"title":'ey',"img":'asd',"desc":'asd',"price":'asd',"createdAt":"2021-06-04T10:06:00.000Z","updatedAt":"2021-06-04T10:06:00.000Z","ownerId":1,"owner":{"id":1,"username":"123","email":"123"}},{"id":2,"name":"prueba1","title":"prueba1","img":"https://elements-assets.envato.com/apps/storefront/audioCover01-8c537039e711097cca2b.svg","desc":"hola muy buenas","price":"54","createdAt":"2021-06-04T10:06:25.000Z","updatedAt":"2021-06-04T10:06:25.000Z","ownerId":1,"owner":{"id":1,"username":"123","email":"123"}}],
-  allTestPackages:[],
-  tests:[],
-  selectedTest:{type:'',testQuestions:[]}
+  buyedTestPackages: [],
+  allTestPackages: [],
+  tests: [],
+  selectedTest: { selectedTestIndex: 0, type: "", testQuestions: [] },
+  OwnedTestPackages:[]
 };
 const getters = {
   getBuyedTestPackages: (state) => state.buyedTestPackages,
   getAllTestPackages: (state) => state.allTestPackages,
   getAllTestOfPackage: (state) => state.tests,
-  
+  getOwnedTestPackages: (state) => state.OwnedTestPackages,
+  getSelectedTest: (state) => state.selectedTest,
+  getQuestionAndAnswersOfTest: (state) =>state.selectedTest.testQuestions[state.selectedTest.selectedTestIndex],
+  getTestMark: (state) =>{
+    return state.selectedTest.testQuestions.reduce((acc,question)=>{
+      if (!question.answer.isTrue) {
+        acc++
+      }
+      return acc
+    },0)
+  },
+  getAllQuestionsType: (state) => state.selectedTest.type,
 };
 
 const mutations = {
-  
   SET_ALL_PACKAGES(state, payload) {
     state.allTestPackages = payload;
-
   },
   SET_BUYED_PACKAGES(state, payload) {
     state.buyedTestPackages = payload;
-
   },
   SET_TESTS_OF_PACKAGE(state, payload) {
     state.tests = payload;
-
   },
   SET_TESTS_SELECTED_TEST(state, payload) {
     state.tests = payload;
-
   },
-  
-  
+  SET_OWNED_TESTPACKAGES(state, payload) {
+    state.OwnedTestPackages = payload;
+  },
+  SET_QUESTIONS_OF_TEST(state, payload) {
+    state.selectedTest.testQuestions = payload.map((obj) => ({
+      ...obj,
+      answer: {answered:false,selectedAnswer:'',isTrue:false},
+    }));
+  },
+  SET_PREV_SELECTED_QUESTION(state) {
+    if (state.selectedTest.selectedTestIndex > 0) {
+      state.selectedTest.selectedTestIndex--;
+    }
+  },
+  SET_NEXT_SELECTED_QUESTION(state) {
+    if (state.selectedTest.testQuestions.length - 1 > state.selectedTest.selectedTestIndex) {
+      state.selectedTest.selectedTestIndex++;
+    }
+  },
+  RESET_SELECTED_TEST(state) {
+    state.selectedTest =  { selectedTestIndex: 0, type: "", testQuestions: [] }
+  },
+  SET_SELECTED_ANSWER_ON_QUESTION(state,{answerId,isTrue}) {
+    if ( !state.selectedTest.testQuestions[state.selectedTest.selectedTestIndex].answer.answered) {
+      state.selectedTest.testQuestions[state.selectedTest.selectedTestIndex].answer.answered = true;
+      state.selectedTest.testQuestions[state.selectedTest.selectedTestIndex].answer.selectedAnswer = answerId;
+      state.selectedTest.testQuestions[state.selectedTest.selectedTestIndex].answer.isTrue = isTrue;
+
+    }
+  },
 };
 
 const actions = {
-
   // async getAllTestPackages({ commit }, userCredentials) {
   async getAllTestPackages({ commit }) {
-    return new Promise(async(resolve, reject) => {
-         commit("SET_LOADER", true, { root: true });
+    return new Promise(async (resolve, reject) => {
+      commit("SET_LOADER", true, { root: true });
 
-    try {
-      var request = await testPackage.getAllTestPackages();
-      commit("SET_ALL_PACKAGES", request.data.data)
-      // SUCCESS
-      
+      try {
+        var request = await testPackage.getAllTestPackages();
+        commit("SET_ALL_PACKAGES", request.data.data);
+        // SUCCESS
+      } catch (error) {
+        reject(error.response.data.msg);
+      }
 
-     
-    } catch (error) {
-      
-      reject(error.response.data.msg)
-    }
+      commit("SET_LOADER", false, { root: true });
 
-    commit("SET_LOADER", false, { root: true });
-
-
-    resolve ({ status: true, request });
-    })
-
-   
+      resolve({ status: true, request });
+    });
   },
   async getBuyedTestPackages({ commit }) {
-    return new Promise(async(resolve, reject) => {
-         commit("SET_LOADER", true, { root: true });
+    return new Promise(async (resolve, reject) => {
+      commit("SET_LOADER", true, { root: true });
 
-    try {
-      var request = await testPackage.getBuyedTestPackages();
-      commit("SET_BUYED_PACKAGES", request.data.data)
-      // SUCCESS
-      
+      try {
+        var request = await testPackage.getBuyedTestPackages();
+        commit("SET_BUYED_PACKAGES", request.data.data);
+        // SUCCESS
+      } catch (error) {
+        reject(error.response.data.msg);
+      }
 
-     
-    } catch (error) {
-      
-      reject(error.response.data.msg)
-    }
+      commit("SET_LOADER", false, { root: true });
 
-    commit("SET_LOADER", false, { root: true });
-
-
-    resolve ({ status: true, request });
-    })
-
-   
+      resolve({ status: true, request });
+    });
   },
-  async addTestPackageToUser({ commit,dispatch },testPackageId) {
-    return new Promise(async(resolve, reject) => {
-         commit("SET_LOADER", true, { root: true });
+  async addTestPackageToUser({ commit, dispatch }, testPackageId) {
+    return new Promise(async (resolve, reject) => {
+      commit("SET_LOADER", true, { root: true });
 
-    try {
-      var request = await testPackage.addTestPackageToUser(testPackageId);
-      await dispatch("getBuyedTestPackages")
-      // SUCCESS
-      
+      try {
+        var request = await testPackage.addTestPackageToUser(testPackageId);
+        await dispatch("getBuyedTestPackages");
+        // SUCCESS
+      } catch (error) {
+        reject(error.response.data.msg);
+      }
 
-     
-    } catch (error) {
-      
-      reject(error.response.data.msg)
-    }
+      commit("SET_LOADER", false, { root: true });
 
-    commit("SET_LOADER", false, { root: true });
-
-
-    resolve ({ status: true, request });
-    })
-
-   
+      resolve({ status: true, request });
+    });
   },
-  async getAllTestsOfPackage({ commit },testPackageId) {
-    return new Promise(async(resolve, reject) => {
-         commit("SET_LOADER", true, { root: true });
+  async getAllTestsOfPackage({ commit }, testPackageId) {
+    return new Promise(async (resolve, reject) => {
+      commit("SET_LOADER", true, { root: true });
 
-    try {
-      var request = await testPackage.getAllTestsOfPackage(testPackageId);
-      // SUCCESS
-      commit("SET_TESTS_OF_PACKAGE", request.data.data)
+      try {
+        var request = await testPackage.getAllTestsOfPackage(testPackageId);
+        // SUCCESS
+        commit("SET_TESTS_OF_PACKAGE", request.data.data);
+      } catch (error) {
+        reject(error.response.data.msg);
+      }
 
-     
-    } catch (error) {
-      
-      reject(error.response.data.msg)
-    }
+      commit("SET_LOADER", false, { root: true });
 
-    commit("SET_LOADER", false, { root: true });
-
-
-    resolve ({ status: true, request });
-    })
-
-   
+      resolve({ status: true, request });
+    });
   },
+  async getAllQuestionsAndAnswersOfTest({ commit }, testId) {
+    return new Promise(async (resolve, reject) => {
+      commit("SET_LOADER", true, { root: true });
+
+      try {
+        var request = await testPackage.getAllQuestionsAndAnswersOfTest(testId);
+        // SUCCESS
+        commit("SET_QUESTIONS_OF_TEST", request.data.data);
+      } catch (error) {
+        reject(error.response.data.msg);
+      }
+
+      commit("SET_LOADER", false, { root: true });
+
+      resolve({ status: true, request });
+    });
+  },
+  async getOwnedTestPackages({ commit }) {
+    return new Promise(async (resolve, reject) => {
+      commit("SET_LOADER", true, { root: true });
+
+      try {
+        var request = await testPackage.getOwnedTestPackages();
+        // SUCCESS
+        commit("SET_OWNED_TESTPACKAGES", request.data.data);
+      } catch (error) {
+        reject(error.response.data.msg);
+      }
+
+      commit("SET_LOADER", false, { root: true });
+
+      resolve({ status: true, request });
+    });
+  },
+  async createTestPackage({ commit },payload) {
+    return new Promise(async (resolve, reject) => {
+      commit("SET_LOADER", true, { root: true });
+      if (payload.price == null || payload.price == '') {
+         commit(
+          "SET_MSG",
+          {
+            text: 'El precio debe ser 0 o un numero positivo ',
+            color: "error",
+            active: true,
+          },
+          { root: true }
+        );
+        commit("SET_LOADER", false, { root: true });
+        return reject('El precio debe ser 0 o un numero positivo');
+
+      }
+      try {
+        var request = await testPackage.createTestPackage(payload);
+        if (request.data.success != true) {
+          return commit(
+            "SET_MSG",
+            {
+              text: request.data.msg,
+              color: "error",
+              active: true,
+            },
+            { root: true }
+          );
+        }
+        // SUCCESS
+        commit(
+          "SET_MSG",
+          {
+            text: request.data.msg,
+            color: "success",
+            active: true,
+          },
+          { root: true }
+        );
+      } catch (error) {
+        commit(
+          "SET_MSG",
+          {
+            text: error.response.data.msg,
+            color: "error",
+            active: true,
+          },
+          { root: true }
+        );
+        reject(error.response.data.msg);
+      }
+
+      commit("SET_LOADER", false, { root: true });
+
+      resolve({ success: true, data :request.data.data });
+    });
+  },
+  async createTest({ commit },payload) {
+    return new Promise(async (resolve, reject) => {
+      commit("SET_LOADER", true, { root: true });
+     
+      try {
+        var request = await testPackage.createTest(payload);
+        if (request.data.success != true) {
+          return commit(
+            "SET_MSG",
+            {
+              text: request.data.msg,
+              color: "error",
+              active: true,
+            },
+            { root: true }
+          );
+        }
+        // SUCCESS
+        commit(
+          "SET_MSG",
+          {
+            text: request.data.msg,
+            color: "success",
+            active: true,
+          },
+          { root: true }
+        );
+      } catch (error) {
+        commit(
+          "SET_MSG",
+          {
+            text: error.response.data.msg,
+            color: "error",
+            active: true,
+          },
+          { root: true }
+        );
+        reject(error.response.data.msg);
+      }
+
+      commit("SET_LOADER", false, { root: true });
+
+      resolve({ success: true, data :request.data.data });
+    });
+  },
+  async createQuestionAndAnswers({ commit },payload) {
+    return new Promise(async (resolve, reject) => {
+      let {questionData,
+        answerData,} = payload
+      commit("SET_LOADER", true, { root: true });
+     
+      try {
+        var request = await testPackage.createQuestion(questionData);
+        if (request.data.success != true) {
+          return commit(
+            "SET_MSG",
+            {
+              text: request.data.msg,
+              color: "error",
+              active: true,
+            },
+            { root: true }
+          );
+        }
+        let noAnswerCounter = answerData.reduce((acc,answer)=>{
+          if(answer.answer == '') acc ++
+          return acc
+        },0)
+        console.log(noAnswerCounter);
+        if (noAnswerCounter == 4) {
+           commit(
+            "SET_MSG",
+            {
+              text: 'al menos tiene que haber alguna respuesta',
+              color: "error",
+              active: true,
+            },
+            { root: true }
+          );
+          commit("SET_LOADER", false, { root: true });
+
+          return reject({ success: false, data :null,msg:'al menos tiene que haber alguna respuesta' });
+
+        }
+
+        answerData.forEach(async answer => {
+          answer.questionId = request.data.data.id
+          console.log(answer);
+           await testPackage.createAnswer(answer);
+
+        });
+
+        // SUCCESS
+        commit(
+          "SET_MSG",
+          {
+            text: request.data.msg,
+            color: "success",
+            active: true,
+          },
+          { root: true }
+        );
+      } catch (error) {
+        commit(
+          "SET_MSG",
+          {
+            text: error.response.data.msg,
+            color: "error",
+            active: true,
+          },
+          { root: true }
+        );
+        reject(error.response.data.msg);
+      }
+
+      commit("SET_LOADER", false, { root: true });
+
+      resolve({ success: true, data :request.data.data });
+    });
+  },
+  
 };
 const modules = {};
 

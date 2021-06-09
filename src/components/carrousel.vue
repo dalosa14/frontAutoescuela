@@ -1,7 +1,7 @@
 <template>
   <!-- component -->
   <!-- Display Container (not part of component) START -->
-  <div class=" h-full mx-auto
+  <div v-if="selectedElement" class=" h-full mx-auto
       
       
       
@@ -44,7 +44,7 @@
       >
         <img
           class="absolute inset-0 w-full h-full object-cover object-center"
-          :src="false || './images/default.svg'"
+          :src="selectedElement.img ? selectedElement.img : './images/default.svg'"
           alt=""
         />
         <div

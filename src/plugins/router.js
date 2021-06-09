@@ -8,7 +8,8 @@ const ifNotAuthenticated = (to, from, next) => {
   next('/')
 }
 
-const ifAuthenticated = (to, from, next) => {
+const ifAuthenticated =async  (to, from, next) => {
+  await store.dispatch("user/isAuthenticated");
   if (store.getters['user/isAuthenticated']) {
     next()
     return
@@ -28,6 +29,25 @@ const routes = [
     
     name: "testsPack",
     component: ()=>import('../views/testsPack.vue'),
+    beforeEnter: ifAuthenticated,
+  },
+  {
+    path: "/createTestpack/",
+    
+    name: "createTestpack",
+    component: ()=>import('../views/createTestpack.vue'),
+    beforeEnter: ifAuthenticated,
+  },
+  {
+    path: "/createTest/:testpackId",
+    name: "createTest",
+    component: ()=>import('../views/createTestForm.vue'),
+    beforeEnter: ifAuthenticated,
+  },
+  {
+    path: "/createQuestion/:testId",
+    name: "createQuestion",
+    component: ()=>import('../views/createQuestionAndAnswersForm.vue'),
     beforeEnter: ifAuthenticated,
   },
   {

@@ -139,6 +139,38 @@ const actions = {
       commit("SET_LOADER", false, { root: true });
     });
   },
+  async isAuthenticated({ commit ,dispatch}) {
+    return new Promise(async (resolve, reject) => {
+      commit("SET_LOADER", true, { root: true });
+
+      try {
+        // REGISTER
+
+        var request = await userApi.isAuthenticated();
+console.log(request);
+        // SUCCESS
+       
+
+        if (request.data.success) {
+          commit("SET_LOADER", false, { root: true });
+
+             return resolve({ success: true, request });
+        }
+        dispatch('logout')
+        commit("SET_LOADER", false, { root: true });
+
+         reject({ success: false, request });
+         
+
+      } catch (error) {
+        commit("SET_LOADER", false, { root: true });
+
+        reject({ success: false, error });
+      }
+
+      commit("SET_LOADER", false, { root: true });
+    });
+  },
 };
 const modules = {};
 

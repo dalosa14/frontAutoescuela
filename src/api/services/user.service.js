@@ -7,8 +7,9 @@ export function login(credentials) {
 export function register(credentials) {
   return http.post("user/register", credentials);
 }
-export function createTestPackage(packageData) {
-  return auth_http.post("tests/createTestPackage", packageData);
+
+export function isAuthenticated() {
+  return auth_http.get("user/isAuthenticated" );
 }
 
 // export function renewToken() {
