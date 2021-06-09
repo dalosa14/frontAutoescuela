@@ -1,5 +1,5 @@
 import axios from "axios";
 const api = axios.create({
-    baseURL: process.env.APIURL || "localhost:5000",
+    baseURL:  "https://backend-node-msql.herokuapp.com",
   });
   export default api
