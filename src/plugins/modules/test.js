@@ -286,7 +286,6 @@ const actions = {
       commit("SET_LOADER", true, { root: true });
      
       try {
-        var request = await testPackage.createQuestion(questionData);
         if (request.data.success != true) {
           return commit(
             "SET_MSG",
@@ -337,6 +336,8 @@ const actions = {
          return reject({ success: false, data :null,msg:'al menos tiene que haber alguna respuesta correcta y valida' });
 
        }
+       var request = await testPackage.createQuestion(questionData);
+
         answerData.forEach(async answer => {
           answer.questionId = request.data.data.id
           if (answer.answer != '') {
