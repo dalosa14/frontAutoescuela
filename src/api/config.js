@@ -1,8 +1,8 @@
 import axios from "axios";
 
 let config = {
-  // baseURL:  "https://backend-node-msql.herokuapp.com",
-  baseURL:  "http://localhost:5000",
+  baseURL:  "https://backend-node-msql.herokuapp.com",
+  // baseURL:  "http://localhost:5000",
   authorization: localStorage.getItem("token"),
 };
 
