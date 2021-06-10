@@ -286,17 +286,7 @@ const actions = {
       commit("SET_LOADER", true, { root: true });
      
       try {
-        if (request.data.success != true) {
-          return commit(
-            "SET_MSG",
-            {
-              text: request.data.msg,
-              color: "error",
-              active: true,
-            },
-            { root: true }
-          );
-        }
+        
         let AnswerCounter = answerData.reduce((acc,answer)=>{
           if(answer.answer != '') acc ++
           return acc
@@ -337,7 +327,17 @@ const actions = {
 
        }
        var request = await testPackage.createQuestion(questionData);
-
+        if (request.data.success != true) {
+          return commit(
+            "SET_MSG",
+            {
+              text: request.data.msg,
+              color: "error",
+              active: true,
+            },
+            { root: true }
+          );
+        }
         answerData.forEach(async answer => {
           answer.questionId = request.data.data.id
           if (answer.answer != '') {
