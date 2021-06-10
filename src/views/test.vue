@@ -55,7 +55,7 @@ export default {
     let imgLight = computed(() => {
           if (testMark.value == 0) return 'https://i.ibb.co/SmD9b2p/green.png'
           if (testMark.value == 1) return 'https://i.ibb.co/QCQBT4Q/yellow.png'
-          if (testMark.value >3) return 'https://i.ibb.co/cbsB45M/red.png'
+          if (testMark.value >2) return 'https://i.ibb.co/cbsB45M/red.png'
     });
 
     // console.log(SelectedTest.value.testQuestions.length);
