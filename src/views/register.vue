@@ -1,7 +1,7 @@
 <template lang="pug">
 div(class="h-screen overflow-hidden flex items-center justify-center" ) 
     div(class="font-sans")
-        div(class="relative min-h-screen w-72 flex flex-col sm:justify-center  items-center bg-gray-100")
+        div(class="relative min-h-screen w-72 flex flex-col sm:justify-center  items-center ")
             div(class="relative sm:max-w-sm w-full h-full")
                 div(class="card bg-blue-400 shadow-lg  w-full h-full rounded-3xl absolute  transform -rotate-6")
                 div(class="card bg-red-400 shadow-lg  w-full h-full rounded-3xl absolute  transform rotate-6")
